@@ -1,0 +1,6 @@
+node_modules
+nws-linux
+nws-macos
+nws-win.exe
+.replit
+replit.nix

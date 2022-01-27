@@ -1,0 +1,5 @@
+{
+  "app_name":"NWS Web Server",
+  "port":80,
+  "webadmin":2232
+}

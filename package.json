@@ -1,0 +1,13 @@
+{
+  "name": "nws",
+  "version": "1.0.0",
+  "main": "app.js",
+  "bin":"app.js",
+  "license": "MIT",
+  "dependencies": {
+    "pkg": "^5.5.2"
+  },
+  "scripts":{
+    "pkg": "pkg ."
+  }
+}
