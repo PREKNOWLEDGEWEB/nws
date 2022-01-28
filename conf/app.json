@@ -1,5 +1,7 @@
 {
   "app_name":"NWS Web Server",
   "port":80,
-  "webadmin":2232
+  "ssl_port":443,
+  "webadmin":2232,
+  "default_index":"index.html"
 }

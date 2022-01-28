@@ -1,18 +1,37 @@
 const http = require('http');
-const { port } = require(process.cwd()+'/conf/app.json');
+const https = require('https');
+const { port , default_index , ssl_port } = require(process.cwd()+'/conf/app.json');
 const { readfile } = require(process.cwd()+'/lib/readFile.js');
 const fs = require('fs');
 const path = require('path');
-var site_Default = "default_site";
 
 const requestListener = function (req, res) {
   fs.readFile(process.cwd()+`/conf/vhost/${req.headers.host}.json`, 'utf8' , (err, data) => {
     if (err) {
-      site_Default = "default_site";
+      writeHost("default_site",req,res);
     }
-    site_Default = JSON.parse(data).site_dir;
+    //site_Default = ;
+    writeHost(JSON.parse(data).site_dir,req,res);
   })
   // res.end('Hello, World!');
+  
+}
+function writeHost(site_Default,req,res){
+  try{
+    var isDir = 
+      fs.lstatSync(process.cwd()+`/sites/${site_Default}/`+req.url).isDirectory();
+    if(isDir){
+      if (fs.existsSync(process.cwd()+`/sites/${site_Default}/`+req.url+default_index)) {
+        fs.readFile(process.cwd()+`/sites/${site_Default}/`+req.url+default_index, 'utf8' , (err, data) => {
+          console.log("Redirecting to Index!!!");
+          res.end(data);
+        })
+        return;
+      }
+    }
+  }catch(e){
+
+  }
   fs.readFile(process.cwd()+`/sites/${site_Default}/`+req.url, 'utf8' , (err, data) => {
     fs.readFile(process.cwd()+`/conf/extensions/${path.extname(path.basename(process.cwd()+`/sites/${site_Default}/`+req.url))}.json`, 'utf8' , (err, data) => {
       res.writeHead(200);
@@ -34,6 +53,14 @@ const requestListener = function (req, res) {
   console.log(req.url + "<<<Requested Content ----- Host : "+req.headers.host+">>>");
   console.log();
 }
-
+const options = {
+  key: fs.readFileSync('conf/key.pem'),
+  cert: fs.readFileSync('conf/cert.pem')
+};
 const server = http.createServer(requestListener);
-server.listen(port);
+server.listen(port, function() {
+    console.log('Node Web Server v1 HTTP Port : ' + port);
+});
+https.createServer(options, requestListener).listen(ssl_port, function() {
+    console.log('Node Web Server v1 HTTPs Port : ' + ssl_port);
+});
