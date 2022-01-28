@@ -9,6 +9,7 @@ const requestListener = function (req, res) {
   fs.readFile(process.cwd()+`/conf/vhost/${req.headers.host}.json`, 'utf8' , (err, data) => {
     if (err) {
       writeHost("default_site",req,res);
+      return;
     }
     //site_Default = ;
     writeHost(JSON.parse(data).site_dir,req,res);
