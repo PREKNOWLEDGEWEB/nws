@@ -1,5 +1,6 @@
 const http = require('http');
 const https = require('https');
+const clc = require('cli-color');
 const { port , default_index , ssl_port } = require(process.cwd()+'/conf/app.json');
 const { readfile } = require(process.cwd()+'/lib/readFile.js');
 const fs = require('fs');
@@ -33,7 +34,7 @@ try{
       if(isDir){
         if (fs.existsSync(process.cwd()+`/sites/${site_Default}/`+req.url+default_index)) {
           fs.readFile(process.cwd()+`/sites/${site_Default}/`+req.url+default_index, 'utf8' , (err, data) => {
-            console.log("Redirecting to Index!!!");
+            console.log(clc.cyan("Redirecting to Index!!!"));
             res.end(data);
           })
           return;
@@ -51,7 +52,7 @@ try{
         res.writeHead(200);
         fs.readFile(process.cwd()+"/errors/404.html", 'utf8' , (err, data) => {
           if (err) {
-          console.error("404 Page Not Found Exiting C:234");
+            console.error(clc.red("404 Page Not Found Exiting C:234"));
           process.exit();
           }
           res.end(data);
@@ -60,7 +61,7 @@ try{
       }
       res.end(data);
     })
-    console.log(req.url + "<<<Requested Content ----- Host : "+req.headers.host+">>>");
+    console.log(clc.blue(req.url + "<Requested Content-Host : "+req.headers.host+">"));
     console.log();
   }
   const options = {
@@ -69,10 +70,10 @@ try{
   };
   const server = http.createServer(requestListener);
   server.listen(port, function() {
-      console.log('Node Web Server v1.1 HTTP Port : ' + port);
+      console.log(clc.green('Node Web Server v1.1 HTTP Port : ' + port));
   });
   https.createServer(options, requestListener).listen(ssl_port, function() {
-      console.log('Node Web Server v1.1 HTTPs Port : ' + ssl_port);
+      console.log(clc.green('Node Web Server v1.1 HTTPs Port : ' + ssl_port));
   });
 }catch(e){
   console.log("Oh no i crashed"+e);

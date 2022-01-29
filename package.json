@@ -5,6 +5,7 @@
   "bin": "app.js",
   "license": "MIT",
   "dependencies": {
+    "cli-color": "^2.0.1",
     "localtunnel": "^2.0.2",
     "pkg": "^5.5.2"
   },
