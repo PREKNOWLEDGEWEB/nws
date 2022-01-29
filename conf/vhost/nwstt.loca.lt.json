@@ -1,4 +1,5 @@
 {
   "site":"nwstt.loca.lt",
-  "site_dir":"nwstt"
+  "site_dir":"nwstt",
+  "www_redir":false
 }

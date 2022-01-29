@@ -1,4 +1,5 @@
 {
   "site":"nws.preknowledgeweb.repl.co",
-  "site_dir":"default_site"
+  "site_dir":"default_site",
+  "www_redir":false
 }
